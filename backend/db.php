@@ -4,7 +4,7 @@
 $host = 'localhost';
 $user = 'root';
 $password = '';
-$dbname = 'onliclub'; // Cambia este nombre si tu base de datos tiene otro nombre
+$dbname = 'plataforma_cursos_onli_club'; // Cambia este nombre si tu base de datos tiene otro nombre
 
 $conn = new mysqli($host, $user, $password, $dbname);
 
