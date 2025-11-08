@@ -24,40 +24,6 @@ $stats = $result->fetch_assoc();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Profesor - OnliClub</title>
     <?php echo teacherStyles(); ?>
-    <style>
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .stat-card {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .stat-card h3 {
-            margin: 0;
-            color: #666;
-            font-size: 0.9em;
-            text-transform: uppercase;
-        }
-        .stat-card .number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #007bff;
-            margin: 10px 0;
-        }
-        .welcome-section {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-    </style>
 </head>
 <body>
     <?php echo teacherNavbar('inicio'); ?>

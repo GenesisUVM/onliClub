@@ -39,23 +39,6 @@ if ($stmt = $conn->prepare($query)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Cursos - OnliClub</title>
     <?php echo studentStyles(); ?>
-    <style>
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-        .course-card {
-            background: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .course-progress {
-            margin: 15px 0;
-        }
-    </style>
 </head>
 <body>
     <?php echo studentNavbar('cursos'); ?>

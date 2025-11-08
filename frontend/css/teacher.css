@@ -1,0 +1,16 @@
+/* teacher.css - estilos para panel de profesor */
+.container { max-width:1200px; margin:20px auto; padding:0 20px; }
+.courses-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; margin-top:20px; }
+.course-card { background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+.course-card .content { padding:20px; }
+.course-card h3 { margin:0 0 10px 0; }
+.course-card p { margin:0; color:#666; }
+.actions { margin-top:20px; }
+.create-course { margin-bottom:20px; }
+
+/* Estadísticas y secciones */
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; margin-top:20px; }
+.stat-card { background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.06); text-align:center; }
+.stat-card h3 { margin:0; color:#666; font-size:.9em; text-transform:uppercase; }
+.stat-card .number { font-size:2em; font-weight:bold; color:#007bff; margin:10px 0; }
+.welcome-section { background:#fff; padding:20px; border-radius:8px; margin-bottom:20px; box-shadow:0 2px 4px rgba(0,0,0,0.06); }

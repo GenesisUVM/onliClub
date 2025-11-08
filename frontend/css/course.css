@@ -1,0 +1,22 @@
+/* course.css - estilos para vistas de curso y perfil */
+.course-header { background:#fff; padding:30px; margin-bottom:20px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.06); }
+.course-content { display:grid; grid-template-columns:2fr 1fr; gap:20px; }
+.course-details, .course-sidebar { background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.06); }
+.lesson-list { list-style:none; padding:0; }
+.lesson-list li { padding:10px; border-bottom:1px solid #eee; }
+.lesson-list li:last-child { border-bottom:none; }
+.course-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:15px; margin:20px 0; }
+.stat-box { background:#f8f9fa; padding:15px; border-radius:4px; text-align:center; }
+.enrollment-box { text-align:center; padding:20px; background:#f8f9fa; border-radius:8px; margin-top:20px; }
+.price { font-size:24px; font-weight:bold; margin:10px 0; }
+
+/* Perfil (profesor/estudiante) */
+.profile-container { display:flex; gap:20px; padding:20px; }
+.profile-sidebar { width:300px; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.06); }
+.profile-main { flex:1; }
+.profile-image { width:150px; height:150px; border-radius:50%; background:#f0f0f0; margin:0 auto 20px; display:flex; align-items:center; justify-content:center; font-size:48px; color:#666; }
+.profile-stats { margin:20px 0; padding:15px; background:#f9f9f9; border-radius:4px; }
+.profile-actions { display:flex; flex-direction:column; gap:10px; margin-top:20px; }
+.course-progress-card { background:#fff; padding:15px; margin-bottom:15px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+.search-courses { background:#fff; padding:20px; border-radius:8px; margin-top:20px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+.search-input { width:100%; padding:10px; border:1px solid #ddd; border-radius:4px; margin-bottom:10px; }

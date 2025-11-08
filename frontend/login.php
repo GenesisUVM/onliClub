@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archivo - Login</title>
-    <style>body{font-family:Arial,Helvetica,sans-serif;padding:40px;background:#f7f7f7;color:#333}</style>
+    <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
     <h1>Archivo</h1>

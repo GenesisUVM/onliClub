@@ -56,67 +56,6 @@ if ($curso) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $curso ? htmlspecialchars($curso['titulo']) : 'Curso no encontrado'; ?> - OnliClub</title>
     <?php echo studentStyles(); ?>
-    <style>
-        .course-header {
-            background: #fff;
-            padding: 30px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .course-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-        }
-        .course-details {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .course-sidebar {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .lesson-list {
-            list-style: none;
-            padding: 0;
-        }
-        .lesson-list li {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        .lesson-list li:last-child {
-            border-bottom: none;
-        }
-        .course-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        .stat-box {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 4px;
-            text-align: center;
-        }
-        .enrollment-box {
-            text-align: center;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-        .price {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-    </style>
 </head>
 <body>
     <?php echo studentNavbar('cursos'); ?>

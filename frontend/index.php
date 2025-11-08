@@ -47,23 +47,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OnliClub - Cursos Online</title>
-    <style>
-        body { font-family: Arial, Helvetica, sans-serif; margin:0; padding:0; background:#f7f7f7; }
-        .navbar { background:#222; color:#fff; padding:10px 20px; display:flex; align-items:center; justify-content:space-between; }
-        .nav-left { display:flex; gap:15px; align-items:center; }
-        .nav-left a, .nav-right a { color:#fff; text-decoration:none; padding:6px 10px; }
-        .nav-left a.logo { font-weight:bold; font-size:18px; }
-        .nav-right { display:flex; gap:10px; }
-        .container { max-width:1100px; margin:20px auto; padding:0 15px; }
-        .hero { background:#fff; padding:30px; border-radius:8px; margin-bottom:20px; }
-        .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px; }
-        .card { background:#fff; border-radius:8px; padding:12px; box-shadow:0 1px 4px rgba(0,0,0,0.08); }
-        .card img { width:100%; height:140px; object-fit:cover; border-radius:6px; background:#ddd; }
-        .categories { display:flex; gap:8px; flex-wrap:wrap; }
-        .cat { background:#fff; padding:8px 12px; border-radius:20px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
-        footer { text-align:center; padding:20px 0; color:#666; }
-        @media (max-width:600px){ .nav-left{gap:8px} }
-    </style>
+    <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
     <nav class="navbar">
