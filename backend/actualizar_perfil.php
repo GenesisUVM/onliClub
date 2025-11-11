@@ -4,7 +4,8 @@ session_start();
 require_once __DIR__ . '/db.php';
 
 if (!isset($_SESSION['id_usuario'])) {
-    header('Location: ../frontend/login.php');
+    // Redirigir al landing o login cuando no hay sesión activa
+    header('Location: ../frontend/index.php');
     exit;
 }
 

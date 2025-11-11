@@ -8,8 +8,9 @@ $emailPrefill = isset($_GET['email']) ? htmlspecialchars($_GET['email']) : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Profesor - OnliClub</title>
+    <link rel="stylesheet" href="css/app.css">
 </head>
-<body>
+<body class="login">
     <h2>Iniciar sesión - Profesor</h2>
     <?php if (!empty($emailPrefill)): ?>
         <p>Se ha precargado el email: <strong><?php echo $emailPrefill; ?></strong></p>

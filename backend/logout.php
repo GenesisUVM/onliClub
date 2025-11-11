@@ -28,7 +28,8 @@ if ($next) {
     } elseif ($role === 'Profesor') {
         $redirect = dirname($_SERVER['PHP_SELF']) . '/../frontend/profesor_login.php';
     } else {
-        $redirect = dirname($_SERVER['PHP_SELF']) . '/../frontend/login.php';
+        // Fallback: redirigir al landing público donde están los links de login
+        $redirect = dirname($_SERVER['PHP_SELF']) . '/../frontend/index.php';
     }
 }
 

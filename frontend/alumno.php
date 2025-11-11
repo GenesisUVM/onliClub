@@ -1,7 +1,8 @@
 <?php
 session_start();
 if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'Alumno') {
-    header('Location: login.php');
+    // Redirigir al login de alumnos (flujo actual)
+    header('Location: alumno_login.php');
     exit;
 }
 ?>
