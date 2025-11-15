@@ -1,12 +1,10 @@
 <?php
-// Landing pública - página principal sin verificación
-// Intenta leer cursos populares y categorías desde la base de datos; si falla, muestra ejemplos.
+// Landing pública
 require_once __DIR__ . '/../backend/db.php';
 
 $popularCourses = [];
 $categories = [];
 
-// Intentar leer cursos populares
 $coursesQuery = "SELECT id_curso, titulo, descripcion, IFNULL(imagen, '') AS imagen, IFNULL(popular_score, 0) AS score FROM Cursos ORDER BY score DESC LIMIT 6";
 if ($result = $conn->query($coursesQuery)) {
     while ($row = $result->fetch_assoc()) {
@@ -22,7 +20,6 @@ if ($result = $conn->query($coursesQuery)) {
     ];
 }
 
-// Intentar leer categorías
 $catQuery = "SELECT id_categoria, nombre FROM Categorias ORDER BY nombre LIMIT 20";
 if ($result = $conn->query($catQuery)) {
     while ($row = $result->fetch_assoc()) {
@@ -30,18 +27,15 @@ if ($result = $conn->query($catQuery)) {
     }
     $result->free();
 } else {
-    // fallback de ejemplo
-    $categories = [
+        $categories = [
         ['id_categoria' => 1, 'nombre' => 'Desarrollo Web'],
         ['id_categoria' => 2, 'nombre' => 'Diseño'],
         ['id_categoria' => 3, 'nombre' => 'Marketing'],
     ];
 }
 
-// Cerrar conexión (opcional)
 $conn->close();
 
-// Array de imágenes de placeholder por categoría
 $categoryImages = [
     'PHP' => 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=300&h=140&fit=crop',
     'HTML' => 'https://images.unsplash.com/photo-1621839673705-6617adf9e890?w=300&h=140&fit=crop',
@@ -50,7 +44,6 @@ $categoryImages = [
     'default' => 'https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?w=300&h=140&fit=crop'
 ];
 
-// Función para obtener imagen según el título del curso
 function getCourseImage($courseTitle, $courseId) {
     global $categoryImages;
     
@@ -69,111 +62,108 @@ function getCourseImage($courseTitle, $courseId) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OnliClub - Cursos Online</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/app.css">
-    <style>
-        .card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        .course-image {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-            border-radius: 6px;
-        }
-        .hero {
-            text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, #1A4D63 0%, #00A3BF 100%);
-            color: white;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        .hero h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-        }
-        .hero p {
-            font-size: 1.2em;
-            margin-bottom: 30px;
-        }
-    </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-left">
             <a href="index.php" class="logo">OnliClub</a>
             <a href="#cursos">Cursos</a>
-            <a href="#precios">Precios</a>
             <a href="#categorias">Categorías</a>
+            <a href="#precios">Precios</a>
         </div>
         <div class="nav-right">
-            <a href="alumno_login.php">Login Alumno</a>
-            <a href="profesor_login.php">Login Profesor</a>
+            <a href="alumno_login.php" class="btn-ingresar">Ingresar</a>
         </div>
     </nav>
 
-    <div class="container">
-        <section class="hero">
-            <h1>Aprende nuevas habilidades online</h1>
-            <p>Elige entre cientos de cursos impartidos por profesionales. Empieza hoy y mejora tu carrera.</p>
-            <a href="#cursos" class="btn btn-primary" style="font-size: 1.1em; padding: 12px 30px;">Explorar Cursos</a>
+    <div style="position: relative; width: 100%;">
+        <section class="hero-section">
+            <h1>Aprende nuevas habilidades en línea</h1>
+            <p>Explora cursos prácticos creados por profesionales. Mejora tu perfil y avanza en tu carrera con proyectos reales.</p>
+            <form class="search-container" action="buscar_cursos.php" method="GET">
+                <input type="text" 
+                       name="q" 
+                       class="search-input" 
+                       placeholder='Buscar cursos, p.ej. "Programación en PHP"'>
+                <button type="submit" class="search-btn">Buscar</button>
+            </form>
+            <div class="category-filters">
+                <button class="category-filter">Programación</button>
+                <button class="category-filter">Diseño</button>
+                <button class="category-filter">Negocios</button>
+            </div>
+            <div class="hero-image">Imagen / Ilustración</div>
         </section>
 
-        <section id="cursos">
-            <h2>Cursos populares</h2>
-            <div class="grid">
-                <?php foreach ($popularCourses as $c): ?>
-                    <article class="card">
+        <section class="popular-categories" id="categorias">
+            <h2>Categorías populares</h2>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <h3>Programación</h3>
+                    <p>120 cursos</p>
+                </div>
+                <div class="category-card">
+                    <h3>Diseño</h3>
+                    <p>60 cursos</p>
+                </div>
+                <div class="category-card">
+                    <h3>Marketing</h3>
+                    <p>45 cursos</p>
+                </div>
+                <div class="category-card">
+                    <h3>Excel</h3>
+                    <p>37 cursos</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-courses" id="cursos">
+            <h2>Cursos destacados</h2>
+            <div class="courses-grid">
+                <?php 
+                $courseIndex = 0;
+                foreach (array_slice($popularCourses, 0, 3) as $c): 
+                    $courseIndex++;
+                ?>
+                    <article class="course-card">
                         <img src="<?php echo getCourseImage($c['titulo'], $c['id_curso']); ?>" 
                              alt="<?php echo htmlspecialchars($c['titulo']); ?>" 
                              class="course-image"
                              loading="lazy">
-                        <h3><?php echo htmlspecialchars($c['titulo']); ?></h3>
-                        <p><?php echo htmlspecialchars(substr($c['descripcion'], 0, 120)); ?><?php echo strlen($c['descripcion'])>120? '...':''; ?></p>
-                        <p><a href="ver_curso.php?id=<?php echo $c['id_curso']; ?>" class="btn btn-primary">Ver curso</a></p>
+                        <div class="course-info">
+                            <h3><?php echo htmlspecialchars($c['titulo']); ?></h3>
+                            <p class="duration">Duración: <?php echo rand(6, 12); ?> horas</p>
+                            <div class="rating">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <a href="ver_curso.php?id=<?php echo $c['id_curso']; ?>" class="btn-inscribirme">Inscribirme</a>
+                        </div>
                     </article>
                 <?php endforeach; ?>
             </div>
         </section>
-
-        <section id="categorias" style="margin-top:24px;">
-            <h2>Categorías</h2>
-            <div class="categories">
-                <?php foreach ($categories as $cat): ?>
-                    <div class="cat"><?php echo htmlspecialchars($cat['nombre']); ?></div>
-                <?php endforeach; ?>
-            </div>
-        </section>
-
-        <section id="precios" style="margin-top:24px;">
-            <h2>Precios</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>Plan Básico</h3>
-                    <p>Acceso limitado a cursos gratuitos y algunos cursos pagos.</p>
-                    <p><strong>$0 / mes</strong></p>
-                </div>
-                <div class="card">
-                    <h3>Plan Pro</h3>
-                    <p>Acceso ilimitado a todos los cursos y certificaciones.</p>
-                    <p><strong>$9.99 / mes</strong></p>
-                </div>
-                <div class="card">
-                    <h3>Plan Empresa</h3>
-                    <p>Planes para equipos con administración centralizada.</p>
-                    <p><strong>Contactar</strong></p>
-                </div>
-            </div>
-        </section>
-
     </div>
 
     <footer>
-        &copy; <?php echo date('Y'); ?> OnliClub — Plataforma de cursos online
+        <div class="footer-left">
+            <div class="logo">OnliClub</div>
+            <p>Plataforma de cursos en línea</p>
+        </div>
+        <div class="footer-center">
+            <a href="#ayuda">Ayuda</a>
+            <a href="#terminos">Términos Privacidad</a>
+        </div>
+        <div class="footer-right">
+            © <?php echo date('Y'); ?> OnliClub
+        </div>
     </footer>
 </body>
 </html>
