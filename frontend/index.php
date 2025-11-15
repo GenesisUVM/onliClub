@@ -40,6 +40,28 @@ if ($result = $conn->query($catQuery)) {
 
 // Cerrar conexión (opcional)
 $conn->close();
+
+// Array de imágenes de placeholder por categoría
+$categoryImages = [
+    'PHP' => 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=300&h=140&fit=crop',
+    'HTML' => 'https://images.unsplash.com/photo-1621839673705-6617adf9e890?w=300&h=140&fit=crop',
+    'CSS' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=140&fit=crop',
+    'JavaScript' => 'https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=300&h=140&fit=crop',
+    'default' => 'https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?w=300&h=140&fit=crop'
+];
+
+// Función para obtener imagen según el título del curso
+function getCourseImage($courseTitle, $courseId) {
+    global $categoryImages;
+    
+    foreach ($categoryImages as $key => $image) {
+        if (stripos($courseTitle, $key) !== false) {
+            return $image . "&random=" . $courseId;
+        }
+    }
+    
+    return $categoryImages['default'] . "&random=" . $courseId;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -48,6 +70,37 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OnliClub - Cursos Online</title>
     <link rel="stylesheet" href="css/app.css">
+    <style>
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .course-image {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #1A4D63 0%, #00A3BF 100%);
+            color: white;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .hero h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -67,6 +120,7 @@ $conn->close();
         <section class="hero">
             <h1>Aprende nuevas habilidades online</h1>
             <p>Elige entre cientos de cursos impartidos por profesionales. Empieza hoy y mejora tu carrera.</p>
+            <a href="#cursos" class="btn btn-primary" style="font-size: 1.1em; padding: 12px 30px;">Explorar Cursos</a>
         </section>
 
         <section id="cursos">
@@ -74,11 +128,10 @@ $conn->close();
             <div class="grid">
                 <?php foreach ($popularCourses as $c): ?>
                     <article class="card">
-                        <?php if (!empty($c['imagen'])): ?>
-                            <img src="<?php echo htmlspecialchars($c['imagen']); ?>" alt="<?php echo htmlspecialchars($c['titulo']); ?>">
-                        <?php else: ?>
-                            <div style="width:100%;height:140px;background:linear-gradient(90deg,#e2e2e2,#f5f5f5);display:flex;align-items:center;justify-content:center;border-radius:6px;color:#888;">Imagen</div>
-                        <?php endif; ?>
+                        <img src="<?php echo getCourseImage($c['titulo'], $c['id_curso']); ?>" 
+                             alt="<?php echo htmlspecialchars($c['titulo']); ?>" 
+                             class="course-image"
+                             loading="lazy">
                         <h3><?php echo htmlspecialchars($c['titulo']); ?></h3>
                         <p><?php echo htmlspecialchars(substr($c['descripcion'], 0, 120)); ?><?php echo strlen($c['descripcion'])>120? '...':''; ?></p>
                         <p><a href="ver_curso.php?id=<?php echo $c['id_curso']; ?>" class="btn btn-primary">Ver curso</a></p>
