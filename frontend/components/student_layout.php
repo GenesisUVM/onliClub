@@ -1,12 +1,7 @@
 <?php
-// Componente de navegación compartido para el panel de estudiante
-function studentNavbar($currentPage = '') {
-    $pages = [
-        'inicio' => ['url' => 'alumno.php', 'title' => 'Inicio'],
-        'cursos' => ['url' => 'mis_cursos.php', 'title' => 'Mis Cursos'],
-        'perfil' => ['url' => 'perfil.php', 'title' => 'Mi Perfil']
-    ];
-    
+
+// Función de Navegación Genérica
+function createNavbar($pages, $currentPage = '') {
     ob_start();
 ?>
     <nav class="navbar">
@@ -28,10 +23,35 @@ function studentNavbar($currentPage = '') {
     return ob_get_clean();
 }
 
-// Estilos compartidos para el panel de estudiante
+
+// Componente de navegación para el panel de estudiante
+function studentNavbar($currentPage = '') {
+    $pages = [
+        'inicio' => ['url' => 'alumno.php', 'title' => 'Inicio'],
+        'cursos' => ['url' => 'mis_cursos.php', 'title' => 'Mis Cursos'],
+        'perfil' => ['url' => 'perfil.php', 'title' => 'Mi Perfil']
+    ];
+    return createNavbar($pages, $currentPage);
+}
+
+
+// Componente de navegación para el panel de admin
+function adminNavbar($currentPage = '') {
+    $pages = [
+        'inicio' => ['url' => 'admin.php', 'title' => 'Dashboard'],
+        'usuarios' => ['url' => '#', 'title' => 'Usuarios'],
+        'cursos' => ['url' => '#', 'title' => 'Cursos'],
+        'reportes' => ['url' => '#', 'title' => 'Reportes'],
+    ];
+    return createNavbar($pages, $currentPage);
+}
+
+
+// Estilos compartidos para los paneles
 function studentStyles() {
     // Devuelve las etiquetas <link> para los CSS externos.
-    // Se mantienen en una función para compatibilidad con llamadas existentes.
-    return '<link rel="stylesheet" href="css/app.css">\n<link rel="stylesheet" href="css/student.css">\n<link rel="stylesheet" href="css/course.css">';
+    return '<link rel="stylesheet" href="css/app.css">' . "\n" . 
+           '<link rel="stylesheet" href="css/student.css">';
 }
+
 ?>

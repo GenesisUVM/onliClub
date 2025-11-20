@@ -14,7 +14,7 @@ $stmt = $conn->prepare("
            COUNT(DISTINCT ic.id_curso) as total_cursos,
            COUNT(DISTINCT cl.id_leccion) as total_lecciones_completadas
     FROM Usuarios u
-    LEFT JOIN InscripcionesCursos ic ON u.id_usuario = ic.id_usuario
+    LEFT JOIN inscripciones_cursos ic ON u.id_usuario = ic.id_usuario
     LEFT JOIN CompletadoLecciones cl ON u.id_usuario = cl.id_usuario
     WHERE u.id_usuario = ?
     GROUP BY u.id_usuario

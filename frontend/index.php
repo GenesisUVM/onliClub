@@ -5,7 +5,7 @@ require_once __DIR__ . '/../backend/db.php';
 $popularCourses = [];
 $categories = [];
 
-$coursesQuery = "SELECT id_curso, titulo, descripcion, IFNULL(imagen, '') AS imagen, IFNULL(popular_score, 0) AS score FROM Cursos ORDER BY score DESC LIMIT 6";
+$coursesQuery = "SELECT id_curso, titulo, descripcion, '' AS imagen FROM cursos ORDER BY id_curso DESC LIMIT 6";
 if ($result = $conn->query($coursesQuery)) {
     while ($row = $result->fetch_assoc()) {
         $popularCourses[] = $row;
@@ -14,9 +14,9 @@ if ($result = $conn->query($coursesQuery)) {
 } else {
     // fallback de ejemplo
     $popularCourses = [
-        ['id_curso' => 1, 'titulo' => 'Introducción a PHP', 'descripcion' => 'Aprende los fundamentos de PHP y cómo crear aplicaciones web.', 'imagen' => '', 'score' => 100],
-        ['id_curso' => 2, 'titulo' => 'HTML y CSS desde cero', 'descripcion' => 'Construye páginas web modernas y responsivas.', 'imagen' => '', 'score' => 90],
-        ['id_curso' => 3, 'titulo' => 'JavaScript para principiantes', 'descripcion' => 'Domina lo esencial de JavaScript y la interacción en el navegador.', 'imagen' => '', 'score' => 85],
+        ['id_curso' => 1, 'titulo' => 'Introducción a PHP', 'descripcion' => 'Aprende los fundamentos de PHP y cómo crear aplicaciones web.', 'imagen' => ''],
+        ['id_curso' => 2, 'titulo' => 'HTML y CSS desde cero', 'descripcion' => 'Construye páginas web modernas y responsivas.', 'imagen' => ''],
+        ['id_curso' => 3, 'titulo' => 'JavaScript para principiantes', 'descripcion' => 'Domina lo esencial de JavaScript y la interacción en el navegador.', 'imagen' => ''],
     ];
 }
 

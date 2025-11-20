@@ -1,9 +1,11 @@
 <?php
+// Bloque de autenticación original
 session_start();
 if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'Alumno') {
     header('Location: alumno_login.php');
     exit;
 }
+
 
 require_once __DIR__ . '/../backend/db.php';
 require_once __DIR__ . '/components/student_layout.php';
@@ -46,6 +48,7 @@ $cursos_recientes = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
 $conn->close();
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -55,90 +58,148 @@ $conn->close();
     <title>Panel Alumno - OnliClub</title>
     <?php echo studentStyles(); ?>
     <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 35px; /* Espacio entre secciones */
+        }
+
         .welcome-section {
             background: linear-gradient(135deg, #1A4D63 0%, #00A3BF 100%);
             color: white;
-            padding: 30px;
-            border-radius: 10px;
-            margin-bottom: 30px;
+            padding: 35px;
+            border-radius: 12px;
             text-align: center;
         }
-        .stats-grid {
+        .welcome-icon {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+        }
+        .welcome-section h1 {
+            margin: 0;
+            font-size: 2.2em;
+        }
+        .welcome-section p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        /* Grid para estadísticas y acciones */
+        .stats-grid, .quick-actions {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 20px;
-            margin: 30px 0;
         }
-        .stat-card {
+
+        /* Estilo base para todas las tarjetas */
+        .card {
             background: white;
+            border-radius: 10px;
             padding: 25px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-left: 4px solid #00A3BF;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        /* Tarjetas de estadísticas */
+        .stat-card {
+            align-items: center;
+            border-left: 5px solid #00A3BF;
         }
         .stat-number {
-            font-size: 2.5em;
+            font-size: 2.8em;
             font-weight: bold;
             color: #1A4D63;
-            margin: 10px 0;
         }
         .stat-label {
-            color: #666;
-            font-size: 0.9em;
+            color: #555;
+            font-size: 1em;
+            margin-top: 5px;
         }
+
+        /* Botones de acción rápida */
+        .action-btn {
+            background: white;
+            border: 2px solid #00A3BF;
+            color: #1A4D63;
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .action-btn:hover {
+            background: #00A3BF;
+            color: white;
+        }
+
+        /* Grid de cursos */
         .courses-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            gap: 25px;
         }
         .course-card {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            flex-grow: 1; /* Para que todas las tarjetas tengan la misma altura */
         }
-        .course-card:hover {
-            transform: translateY(-5px);
+        .course-card h3 {
+            margin-top: 0;
         }
+        .course-card .btn {
+            margin-top: auto; /* Empuja el botón al final */
+        }
+
         .progress-bar {
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
             margin: 15px 0;
             overflow: hidden;
         }
         .progress-fill {
             height: 100%;
             background: #00A3BF;
-            transition: width 0.3s ease;
+            transition: width 0.4s ease-in-out;
         }
-        .quick-actions {
+        
+        /* Sección de metas */
+        .goals-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+        }
+        .goals-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 30px 0;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
-        .action-btn {
-            background: white;
-            border: 2px solid #00A3BF;
-            color: #1A4D63;
-            padding: 15px;
-            border-radius: 8px;
-            text-decoration: none;
+        .goal-card {
+            padding: 20px;
+        }
+        .goal-card h4 { margin-top: 0; }
+        .goal-card p { margin-bottom: 0; }
+        .goal-card.color-1 { border-left: 5px solid #F59E0B; }
+        .goal-card.color-2 { border-left: 5px solid #00A3BF; }
+        .goal-card.color-3 { border-left: 5px solid #1A4D63; }
+
+        /* Mensaje para cuando no hay cursos */
+        .no-courses-message {
             text-align: center;
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
-        .action-btn:hover {
-            background: #00A3BF;
-            color: white;
-        }
-        .welcome-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
+            padding: 50px;
+            background: #f8f9fa;
+            border-radius: 12px;
         }
     </style>
 </head>

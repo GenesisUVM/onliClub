@@ -1,0 +1,96 @@
+/* Estilos para el layout del administrador */
+body {
+    background-color: #00A3BF; /* Un gris claro para el fondo del contenido */
+    margin: 0;
+    display: flex;
+}
+
+.sidebar {
+    width: 260px;
+    background: #F9FAFB; /* Un fondo oscuro para la barra lateral */
+    color: #1A4D63;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+.sidebar-header {
+    padding: 20px;
+    text-align: center;
+    background: #F9FAFB;
+    border-bottom: 1px solid #4a5568;
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #1A4D63;
+}
+
+.nav-links {
+    flex-grow: 1;
+    padding-top: 20px;
+}
+
+.nav-links a {
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 1.05em;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.nav-links a:hover {
+    background: #4a5568;
+    color: #ffffff;
+}
+
+.nav-links a.active {
+    background: #00A3BF; /* Color de acento */
+    color: #ffffff;
+    border-left: 4px solid #F59E0B; /* Indicador visual */
+    padding-left: 21px;
+}
+
+.nav-links a .fas {
+    margin-right: 15px;
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid #4a5568;
+}
+
+.sidebar-footer a {
+    display: flex;
+    align-items: center;
+    padding: 10px 5px;
+    color: #a0aec0;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+.sidebar-footer a:hover {
+    background: #4a5568;
+    color: #ffffff;
+}
+
+.sidebar-footer a .fas {
+    margin-right: 10px;
+}
+
+.main-content {
+    margin-left: 260px; /* Mismo ancho que la barra lateral */
+    padding: 30px;
+    width: calc(100% - 260px);
+    overflow-y: auto;
+}
