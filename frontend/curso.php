@@ -30,10 +30,11 @@ if ($curso_id > 0) {
         SELECT l.*, 
                CASE WHEN cl.fecha_completado IS NOT NULL THEN 1 ELSE 0 END as completada
         FROM Lecciones l
+        JOIN Modulos m ON l.id_modulo = m.id_modulo
         LEFT JOIN CompletadoLecciones cl ON l.id_leccion = cl.id_leccion 
             AND cl.id_usuario = ?
-        WHERE l.id_curso = ?
-        ORDER BY l.orden
+        WHERE m.id_curso = ?
+        ORDER BY m.orden, l.orden
     ");
     $stmt->bind_param('ii', $_SESSION['id_usuario'], $curso_id);
     $stmt->execute();

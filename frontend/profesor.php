@@ -19,33 +19,56 @@ $stats = $result->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Profesor - OnliClub</title>
     <?php echo teacherStyles(); ?>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <?php echo teacherNavbar('inicio'); ?>
 
     <div class="container">
         <div class="welcome-section">
             <h1>Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?></h1>
-            <p>Desde aquí podrás gestionar tus cursos y ver el progreso de tus estudiantes.</p>
+            <p>Desde aquí podrás gestionar tus cursos, ver el progreso de tus estudiantes y administrar tu contenido
+                educativo.</p>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card">
+                <div class="icon">📚</div>
                 <h3>Total de Cursos</h3>
                 <div class="number"><?php echo $stats['total_cursos']; ?></div>
-                <a href="mis_cursos_profesor.php" class="btn btn-outline">Ver mis cursos</a>
+                <a href="mis_cursos_profesor.php" class="btn-link">Ver mis cursos →</a>
             </div>
-            <!-- Aquí puedes agregar más tarjetas de estadísticas según necesites -->
+
+            <div class="stat-card">
+                <div class="icon">👥</div>
+                <h3>Estudiantes Activos</h3>
+                <div class="number">0</div> <!-- Placeholder for now -->
+                <a href="#" class="btn-link">Ver estudiantes →</a>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon">⭐</div>
+                <h3>Valoración Media</h3>
+                <div class="number">5.0</div> <!-- Placeholder for now -->
+                <a href="#" class="btn-link">Ver reseñas →</a>
+            </div>
         </div>
 
-        <div class="actions" style="margin-top: 20px;">
-            <a href="crear_curso.php" class="btn btn-primary">Crear Nuevo Curso</a>
+        <div class="actions-bar">
+            <a href="crear_curso.php" class="btn btn-primary">
+                <span>+</span> Crear Nuevo Curso
+            </a>
         </div>
     </div>
 </body>
+
 </html>
