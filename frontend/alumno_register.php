@@ -1,4 +1,4 @@
 <?php
 $_GET['role'] = 'student';
-require 'login_view.php';
+require 'register_view.php';
 ?>
