@@ -13,47 +13,13 @@ $categoryImages = [
 ];
 
 
-function getCourseImage($courseTitle, $courseId) {
+function getCourseImage($courseTitle, $courseId)
+{
     global $categoryImages;
-    
+
     foreach ($categoryImages as $key => $image) {
         if (stripos($courseTitle, $key) !== false) {
             return $image . "&random=" . $courseId;
-        }
-    }
-    
-    return $categoryImages['default'] . "&random=" . $courseId;
-}
-
-if (!empty($searchQuery)) {
-    $sql = "SELECT id_curso, titulo, descripcion, IFNULL(imagen, '') AS imagen 
-            FROM Cursos 
-            WHERE titulo LIKE ? OR descripcion LIKE ?
-            ORDER BY titulo ASC
-            LIMIT 20";
-    
-    if ($stmt = $conn->prepare($sql)) {
-        $searchTerm = "%$searchQuery%";
-        $stmt->bind_param('ss', $searchTerm, $searchTerm);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        while ($row = $result->fetch_assoc()) {
-            $searchResults[] = $row;
-        }
-        
-        $stmt->close();
-    }
-} else {
-       $sql = "SELECT id_curso, titulo, descripcion, IFNULL(imagen, '') AS imagen, IFNULL(popular_score, 0) AS score 
-            FROM Cursos 
-            ORDER BY score DESC 
-            LIMIT 12";
-    
-    if ($result = $conn->query($sql)) {
-        while ($row = $result->fetch_assoc()) {
-            $searchResults[] = $row;
-        }
         $result->free();
     }
 }
@@ -62,15 +28,21 @@ $conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo !empty($searchQuery) ? 'Resultados de búsqueda: ' . htmlspecialchars($searchQuery) : 'Explorar Cursos'; ?> - OnliClub</title>
+    <title>
+        <?php echo !empty($searchQuery) ? 'Resultados de búsqueda: ' . htmlspecialchars($searchQuery) : 'Explorar Cursos'; ?>
+        - OnliClub
+    </title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Inter:wght@400;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="css/app.css">
 </head>
+
 <body>
     <nav class="navbar">
         <div class="nav-left">
@@ -87,53 +59,41 @@ $conn->close();
     <div style="position: relative; width: 100%;">
         <section class="hero-section">
             <h1><?php echo !empty($searchQuery) ? 'Resultados de búsqueda' : 'Explorar Cursos'; ?></h1>
-            <p><?php echo !empty($searchQuery) ? 'Cursos encontrados para: "' . htmlspecialchars($searchQuery) . '"' : 'Descubre todos nuestros cursos disponibles'; ?></p>
+            <p><?php echo !empty($searchQuery) ? 'Cursos encontrados para: "' . htmlspecialchars($searchQuery) . '"' : 'Descubre todos nuestros cursos disponibles'; ?>
+            </p>
             <form class="search-container" action="buscar_cursos.php" method="GET">
-                <input type="text" 
-                       name="q" 
-                       class="search-input" 
-                       value="<?php echo htmlspecialchars($searchQuery); ?>"
-                       placeholder='Buscar cursos, p.ej. "Programación en PHP"'>
+                <input type="text" name="q" class="search-input" value="<?php echo htmlspecialchars($searchQuery); ?>"
+                    placeholder='Buscar cursos, p.ej. "Programación en PHP"'>
                 <button type="submit" class="search-btn">Buscar</button>
             </form>
         </section>
 
         <section class="featured-courses" id="cursos">
-            <h2><?php echo !empty($searchQuery) ? 'Resultados encontrados' : 'Todos los cursos'; ?> (<?php echo count($searchResults); ?>)</h2>
-            
+            <h2><?php echo !empty($searchQuery) ? 'Resultados encontrados' : 'Todos los cursos'; ?>
+                (<?php echo count($searchResults); ?>)</h2>
+
             <?php if (!empty($searchResults)): ?>
                 <div class="courses-grid">
                     <?php foreach ($searchResults as $c): ?>
-                        <article class="course-card">
-                            <img src="<?php echo getCourseImage($c['titulo'], $c['id_curso']); ?>" 
-                                 alt="<?php echo htmlspecialchars($c['titulo']); ?>" 
-                                 class="course-image"
-                                 loading="lazy">
-                            <div class="course-info">
-                                <h3><?php echo htmlspecialchars($c['titulo']); ?></h3>
-                                <p class="duration"><?php echo htmlspecialchars(substr($c['descripcion'], 0, 100)); ?><?php echo strlen($c['descripcion']) > 100 ? '...' : ''; ?></p>
-                                <div class="rating">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
-                                <a href="ver_curso.php?id=<?php echo $c['id_curso']; ?>" class="btn-inscribirme">Ver curso</a>
-                            </div>
-                        </article>
-                    <?php endforeach; ?>
-                </div>
-            <?php else: ?>
-                <div style="text-align: center; padding: 60px 20px; background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 8px;">
-                    <h3 style="font-family: 'Poppins', sans-serif; color: #000000; margin-bottom: 16px;">No se encontraron cursos</h3>
-                    <p style="font-family: 'Inter', sans-serif; color: #6B7280; margin-bottom: 24px;">
-                        <?php echo !empty($searchQuery) ? 'Intenta con otros términos de búsqueda' : 'No hay cursos disponibles en este momento'; ?>
-                    </p>
-                    <a href="index.php" class="btn btn-primary">Volver al inicio</a>
-                </div>
-            <?php endif; ?>
-        </section>
+                        <span></span>
+                    </div>
+                    <a href="ver_curso.php?id=<?php echo $c['id_curso']; ?>" class="btn-inscribirme">Ver curso</a>
+            </div>
+            </article>
+        <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <div
+            style="text-align: center; padding: 60px 20px; background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 8px;">
+            <h3 style="font-family: 'Poppins', sans-serif; color: #000000; margin-bottom: 16px;">No se encontraron
+                cursos</h3>
+            <p style="font-family: 'Inter', sans-serif; color: #6B7280; margin-bottom: 24px;">
+                <?php echo !empty($searchQuery) ? 'Intenta con otros términos de búsqueda' : 'No hay cursos disponibles en este momento'; ?>
+            </p>
+            <a href="index.php" class="btn btn-primary">Volver al inicio</a>
+        </div>
+    <?php endif; ?>
+    </section>
     </div>
 
     <footer>
@@ -150,5 +110,5 @@ $conn->close();
         </div>
     </footer>
 </body>
-</html>
 
+</html>

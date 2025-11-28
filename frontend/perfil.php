@@ -74,17 +74,19 @@ if ($rol === 'Profesor') {
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil - OnliClub</title>
-    <link rel="stylesheet" href="css/app.css">
-    <link rel="stylesheet" href="css/<?php echo ($rol === 'Profesor') ? 'teacher.css' : 'student.css'; ?>">
+    <link rel="stylesheet" href="css/app.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="css/profile.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <?php $navbar(); ?>
-    
+
     <div class="profile-container">
         <!-- Sidebar -->
         <aside class="profile-sidebar">
@@ -94,7 +96,8 @@ if ($rol === 'Profesor') {
 
             <h2><?php echo htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']); ?></h2>
             <p><?php echo htmlspecialchars($usuario['email']); ?></p>
-            <span style="background: #e0f2fe; color: #0284c7; padding: 4px 12px; border-radius: 20px; font-size: 0.8em; font-weight: 600;">
+            <span
+                style="background: #e0f2fe; color: #0284c7; padding: 4px 12px; border-radius: 20px; font-size: 0.8em; font-weight: 600;">
                 <?php echo $rol; ?>
             </span>
 
@@ -112,29 +115,36 @@ if ($rol === 'Profesor') {
             </div>
 
             <div class="profile-actions">
-                <button class="btn btn-primary" onclick="toggleEditForm()" style="width: 100%; margin-bottom: 10px;">Editar Perfil</button>
-                <a href="../backend/logout.php" class="btn btn-outline" style="width: 100%; display: block; text-align: center;">Cerrar Sesión</a>
+                <button class="btn btn-primary" onclick="toggleEditForm()" style="width: 100%; margin-bottom: 10px;">Editar
+                    Perfil</button>
+                <a href="../backend/logout.php" class="btn btn-outline"
+                    style="width: 100%; display: block; text-align: center;">Cerrar Sesión</a>
             </div>
         </aside>
 
         <!-- Main Content -->
         <main class="profile-main">
             <?php if (isset($_SESSION['profile_success'])): ?>
-                <div style="background: #dcfce7; color: #166534; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #bbf7d0;">
-                    ✅ <?php echo $_SESSION['profile_success']; unset($_SESSION['profile_success']); ?>
+                <div
+                    style="background: #dcfce7; color: #166534; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #bbf7d0;">
+                    ✅ <?php echo $_SESSION['profile_success'];
+                        unset($_SESSION['profile_success']); ?>
                 </div>
             <?php endif; ?>
 
             <?php if (isset($_SESSION['profile_error'])): ?>
-                <div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #fecaca;">
-                    ⚠️ <?php echo $_SESSION['profile_error']; unset($_SESSION['profile_error']); ?>
+                <div
+                    style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #fecaca;">
+                    ⚠️ <?php echo $_SESSION['profile_error'];
+                        unset($_SESSION['profile_error']); ?>
                 </div>
             <?php endif; ?>
 
             <?php if ($rol === 'Alumno'): ?>
                 <h1>Mi Progreso</h1>
                 <?php if (empty($cursos_progreso)): ?>
-                    <div style="text-align: center; padding: 40px; background: #f8fafc; border-radius: 12px; border: 2px dashed #e1e5e9;">
+                    <div
+                        style="text-align: center; padding: 40px; background: #f8fafc; border-radius: 12px; border: 2px dashed #e1e5e9;">
                         <h3>Aún no has iniciado ningún curso</h3>
                         <p>Explora nuestro catálogo y comienza a aprender hoy mismo.</p>
                         <a href="index.php" class="btn btn-primary">Explorar Cursos</a>
@@ -157,8 +167,10 @@ if ($rol === 'Profesor') {
                                 <div style="width: <?php echo $progreso; ?>%;"></div>
                             </div>
                             <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="font-size: 0.9em; font-weight: 600; color: #00A3BF;"><?php echo $progreso; ?>% completado</span>
-                                <a href="curso.php?curso_id=<?php echo $curso['id_curso']; ?>" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.9em;">Continuar</a>
+                                <span style="font-size: 0.9em; font-weight: 600; color: #00A3BF;"><?php echo $progreso; ?>%
+                                    completado</span>
+                                <a href="curso.php?curso_id=<?php echo $curso['id_curso']; ?>" class="btn btn-outline"
+                                    style="padding: 6px 12px; font-size: 0.9em;">Continuar</a>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -166,26 +178,27 @@ if ($rol === 'Profesor') {
             <?php else: ?>
                 <!-- Contenido específico para Profesor -->
                 <h1>Panel de Control</h1>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
-                    <div style="background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #e1e5e9; text-align: center;">
-                        <div style="font-size: 2em; margin-bottom: 10px;">📚</div>
-                        <h3 style="margin: 0; color: #64748b; font-size: 0.9em;">MIS CURSOS</h3>
-                        <p style="font-size: 1.5em; font-weight: bold; color: #1e293b; margin: 10px 0;">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-icon">📚</div>
+                        <h3 class="dashboard-title">MIS CURSOS</h3>
+                        <p class="dashboard-value">
                             <?php echo $stats['Cursos Creados']; ?>
                         </p>
-                        <a href="mis_cursos_profesor.php" style="color: #00A3BF; text-decoration: none; font-size: 0.9em;">Gestionar →</a>
+                        <a href="mis_cursos_profesor.php" class="dashboard-link">Gestionar →</a>
                     </div>
-                    <div style="background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #e1e5e9; text-align: center;">
-                        <div style="font-size: 2em; margin-bottom: 10px;">✍️</div>
-                        <h3 style="margin: 0; color: #64748b; font-size: 0.9em;">CREAR</h3>
-                        <p style="font-size: 1.5em; font-weight: bold; color: #1e293b; margin: 10px 0;">Nuevo Curso</p>
-                        <a href="crear_curso.php" style="color: #00A3BF; text-decoration: none; font-size: 0.9em;">Comenzar →</a>
+                    <div class="dashboard-card">
+                        <div class="dashboard-icon">✍️</div>
+                        <h3 class="dashboard-title">CREAR</h3>
+                        <p class="dashboard-value">Nuevo Curso</p>
+                        <a href="crear_curso.php" class="dashboard-link">Comenzar →</a>
                     </div>
                 </div>
 
-                <div style="background: #f0f9ff; padding: 20px; border-radius: 12px; border: 1px solid #bae6fd;">
-                    <h3 style="margin-top: 0; color: #0369a1;">👋 ¡Hola Profesor!</h3>
-                    <p style="color: #0c4a6e; margin-bottom: 0;">Mantén tu perfil actualizado para que tus estudiantes puedan conocerte mejor. Una buena descripción y foto de perfil generan más confianza.</p>
+                <div class="welcome-box">
+                    <h3>👋 ¡Hola Profesor!</h3>
+                    <p>Mantén tu perfil actualizado para que tus estudiantes puedan conocerte mejor. Una buena descripción y
+                        foto de perfil generan más confianza.</p>
                 </div>
             <?php endif; ?>
         </main>
@@ -196,32 +209,38 @@ if ($rol === 'Profesor') {
         <div class="modal-content">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2 style="margin: 0; font-family: 'Poppins', sans-serif;">Editar Perfil</h2>
-                <button onclick="toggleEditForm()" style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: #64748b;">&times;</button>
+                <button onclick="toggleEditForm()"
+                    style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: #64748b;">&times;</button>
             </div>
 
             <form action="../backend/actualizar_perfil.php" method="post">
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($usuario['nombre']); ?>" required>
+                    <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($usuario['nombre']); ?>"
+                        required>
                 </div>
 
                 <div class="form-group">
                     <label for="apellido">Apellido</label>
-                    <input type="text" id="apellido" name="apellido" value="<?php echo htmlspecialchars($usuario['apellido']); ?>" required>
+                    <input type="text" id="apellido" name="apellido"
+                        value="<?php echo htmlspecialchars($usuario['apellido']); ?>" required>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($usuario['email']); ?>" required>
+                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($usuario['email']); ?>"
+                        required>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Nueva Contraseña <span style="font-weight: normal; color: #64748b; font-size: 0.9em;">(opcional)</span></label>
+                    <label for="password">Nueva Contraseña <span
+                            style="font-weight: normal; color: #64748b; font-size: 0.9em;">(opcional)</span></label>
                     <input type="password" id="password" name="password" placeholder="Dejar en blanco para mantener actual">
                 </div>
 
                 <div style="display: flex; gap: 10px; margin-top: 30px;">
-                    <button type="button" class="btn btn-outline" onclick="toggleEditForm()" style="flex: 1;">Cancelar</button>
+                    <button type="button" class="btn btn-outline" onclick="toggleEditForm()"
+                        style="flex: 1;">Cancelar</button>
                     <button type="submit" class="btn btn-primary" style="flex: 1;">Guardar Cambios</button>
                 </div>
             </form>
@@ -249,4 +268,5 @@ if ($rol === 'Profesor') {
         }
     </script>
 </body>
+
 </html>

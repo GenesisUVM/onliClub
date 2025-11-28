@@ -9,40 +9,35 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'Alumno') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $curso_id = isset($_POST['curso_id']) ? (int)$_POST['curso_id'] : 0;
-    
+    $curso_id = isset($_POST['curso_id']) ? (int) $_POST['curso_id'] : 0;
+
     if ($curso_id > 0) {
         // Verificar si el curso existe y está disponible
-        $stmt = $conn->prepare("SELECT disponible, precio FROM Cursos WHERE id_curso = ?");
+        $stmt = $conn->prepare("SELECT estado, precio FROM Cursos WHERE id_curso = ?");
         $stmt->bind_param('i', $curso_id);
         $stmt->execute();
         $curso = $stmt->get_result()->fetch_assoc();
         $stmt->close();
-        
-        if ($curso && $curso['disponible']) {
+
+        if ($curso && ($curso['estado'] === 'activo' || $curso['estado'] === '' || $curso['estado'] === null)) {
             // Verificar si el usuario ya está inscrito
             $stmt = $conn->prepare("SELECT 1 FROM InscripcionesCursos WHERE id_usuario = ? AND id_curso = ?");
             $stmt->bind_param('ii', $_SESSION['id_usuario'], $curso_id);
             $stmt->execute();
             $ya_inscrito = $stmt->get_result()->num_rows > 0;
             $stmt->close();
-            
+
             if (!$ya_inscrito) {
-                // Si el curso tiene precio, aquí iría la lógica de pago
-                if ($curso['precio'] > 0) {
-                    // TODO: Implementar lógica de pago
-                    $_SESSION['inscription_error'] = "La inscripción a cursos de pago aún no está implementada.";
-                    header('Location: ../frontend/ver_curso.php?id=' . $curso_id);
-                    exit;
-                }
-                
+                // Nota: La lógica de pago está deshabilitada para desarrollo/pruebas
+                // Los usuarios pueden inscribirse en cursos de pago sin pagar
+
                 // Inscribir al usuario
                 $stmt = $conn->prepare("
                     INSERT INTO InscripcionesCursos (id_usuario, id_curso, fecha_inscripcion)
                     VALUES (?, ?, NOW())
                 ");
                 $stmt->bind_param('ii', $_SESSION['id_usuario'], $curso_id);
-                
+
                 if ($stmt->execute()) {
                     $_SESSION['inscription_success'] = "¡Te has inscrito correctamente al curso!";
                     header('Location: ../frontend/curso.php?curso_id=' . $curso_id);
@@ -65,3 +60,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Si algo falló, redirigir de vuelta
 header('Location: ../frontend/ver_curso.php?id=' . $curso_id);
 exit;
+?>

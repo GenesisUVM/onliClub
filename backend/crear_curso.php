@@ -11,7 +11,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'Profesor') {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titulo = trim($_POST['titulo']);
     $descripcion = trim($_POST['descripcion']);
-    $imagen_url = trim($_POST['imagen_url']);
+    // $imagen_url = trim($_POST['imagen_url']);
     $id_profesor = $_SESSION['id_usuario'];
 
     // Validación básica
@@ -21,12 +21,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    $precio = $_POST['precio'];
+    $estado = $_POST['estado'];
+
     // Insertar en la base de datos
-    // Nota: Asumimos que la tabla cursos tiene las columnas: titulo, descripcion, imagen, id_profesor
-    $stmt = $conn->prepare("INSERT INTO Cursos (titulo, descripcion, imagen, id_profesor, fecha_creacion) VALUES (?, ?, ?, ?, NOW())");
+    $stmt = $conn->prepare("INSERT INTO Cursos (titulo, descripcion, id_profesor, fecha_creacion, precio, estado) VALUES (?, ?, ?, NOW(), ?, ?)");
 
     if ($stmt) {
-        $stmt->bind_param("sssi", $titulo, $descripcion, $imagen_url, $id_profesor);
+        $stmt->bind_param("ssids", $titulo, $descripcion, $id_profesor, $precio, $estado);
 
         if ($stmt->execute()) {
             // Éxito

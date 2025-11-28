@@ -14,43 +14,8 @@ $query = "SELECT c.*,
                  COUNT(DISTINCT cl.id_leccion) as lecciones_completadas
           FROM Cursos c
           JOIN InscripcionesCursos ic ON c.id_curso = ic.id_curso
-          LEFT JOIN Lecciones l ON c.id_curso = l.id_curso
-          LEFT JOIN CompletadoLecciones cl ON l.id_leccion = cl.id_leccion 
-               AND cl.id_usuario = ?
-          WHERE ic.id_usuario = ?
-          GROUP BY c.id_curso
-          ORDER BY ic.fecha_inscripcion DESC";
-
-$cursos = [];
-if ($stmt = $conn->prepare($query)) {
-    $stmt->bind_param('ii', $_SESSION['id_usuario'], $_SESSION['id_usuario']);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    while ($curso = $result->fetch_assoc()) {
-        $cursos[] = $curso;
-    }
-    $stmt->close();
-}
-?>
-<!DOCTYPE html>
-<html lang="es">
-<?php
-session_start();
-if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'Alumno') {
-    header('Location: alumno_login.php');
-    exit;
-}
-
-require_once __DIR__ . '/../backend/db.php';
-require_once __DIR__ . '/components/student_layout.php';
-
-// Obtener los cursos del estudiante
-$query = "SELECT c.*, 
-                 COUNT(DISTINCT l.id_leccion) as total_lecciones,
-                 COUNT(DISTINCT cl.id_leccion) as lecciones_completadas
-          FROM Cursos c
-          JOIN InscripcionesCursos ic ON c.id_curso = ic.id_curso
-          LEFT JOIN Lecciones l ON c.id_curso = l.id_curso
+          LEFT JOIN Modulos m ON c.id_curso = m.id_curso
+          LEFT JOIN Lecciones l ON m.id_modulo = l.id_modulo
           LEFT JOIN CompletadoLecciones cl ON l.id_leccion = cl.id_leccion 
                AND cl.id_usuario = ?
           WHERE ic.id_usuario = ?

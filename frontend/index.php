@@ -1,3 +1,41 @@
+<?php
+require_once '../backend/db.php';
+
+// Función para obtener imagen
+function getCourseImage($courseTitle, $courseId)
+{
+    $categoryImages = [
+        'PHP' => 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=300&h=140&fit=crop',
+        'HTML' => 'https://images.unsplash.com/photo-1621839673705-6617adf9e890?w=300&h=140&fit=crop',
+        'CSS' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=140&fit=crop',
+        'JavaScript' => 'https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=300&h=140&fit=crop',
+        'default' => 'https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?w=300&h=140&fit=crop'
+    ];
+
+    foreach ($categoryImages as $key => $image) {
+        if (stripos($courseTitle, $key) !== false) {
+            return $image . "&random=" . $courseId;
+        }
+    }
+
+    return $categoryImages['default'] . "&random=" . $courseId;
+}
+
+// Obtener cursos destacados
+$popularCourses = [];
+$sql = "SELECT id_curso, titulo, descripcion, precio, estado, fecha_creacion 
+        FROM Cursos 
+        WHERE (estado = 'activo' OR estado IS NULL OR estado = '') 
+        ORDER BY fecha_creacion DESC 
+        LIMIT 6";
+
+if ($result = $conn->query($sql)) {
+    while ($row = $result->fetch_assoc()) {
+        $popularCourses[] = $row;
+    }
+    $result->free();
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -73,26 +111,29 @@
                 foreach (array_slice($popularCourses, 0, 3) as $c):
                     $courseIndex++;
                     ?>
-                        <article class="course-card">
-                            <img src="<?php echo getCourseImage($c['titulo'], $c['id_curso']); ?>"
-                    alt="
-                <?php echo htmlspecialchars($c['titulo']); ?>" class="course-image" loading="lazy">
-                    <div class="course-info"> <h3>
-                        <?php echo htmlspecialchars($c['titulo']); ?></h3>
-                                <p class="duration">Duración: <?php echo rand(6, 12); ?> horas</p>
-                        <div class="rating">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                    </div>
-                    <a href="ver_curso.php?id=<?php echo $c['id_curso']; ?>" class="btn-inscribirme">Inscribirme</a>
-                </div>
-                </article>
-            <?php endforeach; ?>
+                    <article class="course-card">
+                        <img src="<?php echo getCourseImage($c['titulo'], $c['id_curso']); ?>"
+                            alt="<?php echo htmlspecialchars($c['titulo']); ?>" class="course-image" loading="lazy">
+                        <div class="course-info">
+                            <h3><?php echo htmlspecialchars($c['titulo']); ?></h3>
+                            <p class="duration">Duración: <?php echo rand(6, 12); ?> horas</p>
+                            <p class="price" style="font-weight: bold; color: #00A3BF; margin-top: 5px;">
+                                <?php echo ($c['precio'] > 0) ? '$' . number_format($c['precio'], 2) : 'Gratis'; ?>
+                            </p>
+                            <div class="rating">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <a href="ver_curso.php?id=<?php echo $c['id_curso']; ?>" class="btn-inscribirme">Inscribirme</a>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        </section>
     </div>
-    </section> </div>
 
     <footer>
         <div class="footer-left">

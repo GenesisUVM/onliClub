@@ -124,12 +124,14 @@ body.login {
     border-radius: 4px;
     text-decoration: none;
     cursor: pointer;
+    margin-top: 10px;
 }
 
 .btn-primary {
     background: var(--btn-important);
     color: var(--text-on-dark);
     border: none;
+    margin-top: 10px;
 }
 
 .btn-outline {
